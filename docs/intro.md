@@ -1,7 +1,7 @@
 # Post 1: AI and ML in Rust: A Wild Idea (That Might Just Work!)
 ## My Journey
 
-Alright team, buckle up! I've been having a blast playing with __Rust__ lately, and while exploring the world of __Artificial Intelligence__ and __Machine Learning__, I stumbled upon something wild: there's a whole, surprisingly active AI/ML ecosystem in _Rust_! Crates like __RIG__, __Polars__, __linfa__, __smartcore__, and __Burn__ are out there!
+ I've been having a fun playing with __Rust__ lately, and while exploring the world of __Artificial Intelligence__ and __Machine Learning__, I stumbled upon something wild: there's a whole, surprisingly active AI/ML ecosystem in _Rust_! Crates like __RIG__, __Polars__, __linfa__, __smartcore__, and __Burn__ are out there!
 
 This discovery, fueled by my curiosity for Rust and AI/ML, sparked a slightly impulsive, definitely ambitious project. I'm diving into AI/ML, I'm sticking with Rust because I like it, and I'm going to figure it out step by step. And as I do, I want to share my findings with anyone else who's curious enough to join this adventure!
 
@@ -44,4 +44,16 @@ Ready to join this slightly impulsive expedition? Here some basic for set up a R
 Install Rust (If You Haven't Already):
 ```bash
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+```
+create your plaing environment with cargo
+
+```bash
+cargo new rust_ai_ml_adventure
+cd rust_ai_ml_adventure
+```
+
+add our basic dependecy, and create a folder for exmaples
+```bash
+cargo add burn --features ndarray
+mkdir examples
 ```
