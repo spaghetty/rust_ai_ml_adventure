@@ -277,6 +277,10 @@ pub fn demonstrate_tricky_tensor_functions<B: Backend>(device: &B::Device) {
     // Expected output shape: [2, 2, 2] -> [[[1.0, 2.0], [3.0, 4.0]], [[5.0, 6.0], [7.0, 8.0]]]
 }
 
+pub fn zero_dim_tensor<B: Backend>(_: &B::Device) {
+    println!("\n--- zero rank tensor is a missing feature... team seems to be working on ---\n");
+}
+
 fn main() {
     let device = Default::default(); // Get the default device for NdArrayBackend
     println!("Using device: {:?}", device);
@@ -284,4 +288,5 @@ fn main() {
     explore_shapes::<NdArray>(&device);
     basic_tensor_ops::<NdArray>(&device);
     demonstrate_tricky_tensor_functions::<NdArray>(&device);
+    zero_dim_tensor::<NdArray>(&device);
 }
