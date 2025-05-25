@@ -13,6 +13,13 @@ pub fn create_some_tensors<B: Backend>(device: &B::Device) {
         vector_tensor.to_data()
     );
 
+    let int_tensor = Tensor::<B, 1, Int>::from_data(vector_tensor.clone().to_data(), device);
+    println!(
+        "Int Tensor ({:?}) {}",
+        int_tensor.shape(),
+        int_tensor.to_data()
+    );
+
     // 2D Tensor (Matrix)
     let matrix_data = [[1.0, 2.0, 3.0], [4.0, 5.0, 6.0]];
     let matrix_tensor = Tensor::<B, 2>::from_data(matrix_data, device);
