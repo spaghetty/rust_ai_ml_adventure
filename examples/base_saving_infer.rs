@@ -57,7 +57,7 @@ fn load_and_infer(model_path_str: &str, input_data: [f32; 2]) {
 
     // 1. Initialize a new model instance with the same architecture
     let config = ModelConfig::new(16); // Must match the config used for the saved model
-    let mut model: Model<MyInferenceBackend> = config.init(&device).load_record(recorder);
+    let model: Model<MyInferenceBackend> = config.init(&device).load_record(recorder);
 
     println!("Model loaded from {} ...", model_path_str);
 

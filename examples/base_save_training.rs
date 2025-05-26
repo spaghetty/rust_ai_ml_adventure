@@ -1,6 +1,7 @@
 use burn::nn::loss::BinaryCrossEntropyLossConfig;
 use burn::prelude::*;
 use burn::record::{FullPrecisionSettings, NamedMpkFileRecorder};
+
 use burn::{
     backend::{Autodiff, NdArray},
     config::Config,
@@ -19,6 +20,7 @@ use burn::{
         TrainOutput,
         TrainStep,
         ValidStep,
+        metric::AccuracyMetric,
         // New! Burn's training module helps a lot!
         metric::LossMetric,
     },
@@ -47,7 +49,6 @@ impl CircleDataset {
             let y = rng.random_range(-1.4..1.4);
             let distance_sq = x * x + y * y;
             let target = if distance_sq < radius_sq { 1.0 } else { 0.0 };
-            println!("{:?} --> {:}\n", [x, y], target);
             items.push(CircleClassificationItem {
                 input: [x, y],
                 target,
@@ -150,7 +151,7 @@ impl<B: AutodiffBackend> TrainStep<CircleBatch<B>, ClassificationOutput<B>> for 
             gradients,
             ClassificationOutput {
                 loss: loss.clone(),
-                output,
+                output: output,
                 targets: item.targets.clone(),
             },
         )
@@ -207,6 +208,8 @@ pub fn run_training() {
 
     // --- Build the Learner (Same as before) ---
     let learner = LearnerBuilder::new("../data/example6/burn_post_6_learner")
+        .metric_train_numeric(AccuracyMetric::new())
+        .metric_valid_numeric(AccuracyMetric::new())
         .metric_train_numeric(LossMetric::new())
         .metric_valid_numeric(LossMetric::new())
         .with_file_checkpointer(CompactRecorder::new())
