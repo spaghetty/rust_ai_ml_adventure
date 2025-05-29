@@ -11,7 +11,7 @@ pub fn simple_autodiff_example() {
 
     // --- 1. Create Tensors, some requiring gradients ---
     // Tensor 'a' - we want to track its gradient
-    let a = Tensor::<MyAutodiffBackend, 1>::from_data([10.0f32], &device).require_grad();
+    let a = Tensor::<MyAutodiffBackend, 1>::from_data([10.0], &device).require_grad();
     println!("Tensor 'a': {:}", a.to_data());
 
     // Tensor 'b' - also track its gradient
