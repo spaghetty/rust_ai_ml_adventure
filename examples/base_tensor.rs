@@ -40,7 +40,7 @@ pub fn create_some_tensors<B: Backend>(device: &B::Device) {
 
     // --- Getting Scalar Values from Operations (Often as Rank 1 Tensors) ---
     // Example: Taking the mean of a tensor
-    // Note: In Burn 0.17.0, mean() without an axis returns a Rank 1 tensor with shape [1]
+    // Note: In Burn, mean() without an axis returns a Rank 1 tensor with shape [1]
     let mean_scalar_result: Tensor<B, 1> = matrix_tensor.mean();
     println!(
         "\nMean of Matrix Tensor (Result Rank 1, {:?}): {}",
@@ -124,8 +124,7 @@ pub fn basic_tensor_ops<B: Backend>(device: &B::Device) {
     );
 
     // --- Scalar Operations ---
-    // Ensure the scalar literal type matches the backend's float type (e.g., f32)
-    let scalar = 2.0f32;
+    let scalar = 2.0;
     let scaled_tensor = tensor1 * scalar; // Element-wise multiplication by a scalar
     println!(
         "Tensor 1 * 2.0 (Scalar Multiplication):\n{:}",
@@ -169,16 +168,13 @@ pub fn demonstrate_tricky_tensor_functions<B: Backend>(device: &B::Device) {
     );
     println!("{}", matrix.to_data());
 
-    // Sum along dimension 1 (columns: 2.0, 5.0), keeping dimension (AI is wrong here)
+    // Sum along dimension 1 (columns: 2.0, 5.0), keeps the dimensions
     let sum_dim1_keepdim = matrix.clone().sum_dim(1); // Result shape [2, 1]
-    println!(
-        "\nSum along dim 1 with keepdim (Shape {:?}):",
-        sum_dim1_keepdim.shape()
-    );
+    println!("\nSum along dim 1 ( {:?}):", sum_dim1_keepdim.shape());
     println!("{}", sum_dim1_keepdim.to_data());
     // Expected output shape: [2, 1] -> [[6.0], [15.0]]
 
-    // Sum along dimension 1 (columns: 2.0, 5.0), without keeping dimension (AI is wrong here)
+    // Sum along dimension 1 (columns: 2.0, 5.0), without keeping dimension
     let sum_dim1_no_keepdim: Tensor<B, 1> = matrix.clone().sum_dim(1).squeeze(1); // Result shape [2]
     println!(
         "Sum along dim 1 without keepdim (Shape {:?}):",
@@ -190,7 +186,7 @@ pub fn demonstrate_tricky_tensor_functions<B: Backend>(device: &B::Device) {
     // Mean along dimension 0 (rows: 1.0, 4.0), keeping dimension
     let mean_dim0_keepdim = matrix.clone().mean_dim(0); // Result shape [1, 3]
     println!(
-        "\nMean along dim 0 with keepdim (Shape {:?}):",
+        "\nMean along dim 0 with keepdim ( {:?}):",
         mean_dim0_keepdim.shape()
     );
     println!("{}", mean_dim0_keepdim.to_data());
@@ -273,7 +269,7 @@ pub fn demonstrate_tricky_tensor_functions<B: Backend>(device: &B::Device) {
     println!("{}", reshaped_tensor.to_data());
     // Expected output shape: [4, 2] -> [[1.0, 2.0], [3.0, 4.0], [5.0, 6.0], [7.0, 8.0]]
 
-    // Unflatten: opposite of flatten, splits a dimension into multiple dimensions.
+    // Unflatten: as opposite of flatten,does not exist best approach I've found is to reshape.
     // Unflatten dimension 0 (size 4) into two dimensions [2, 2]. Shape becomes [2, 2, 2]
     let unflattened_tensor = reshaped_tensor.reshape([2, 2, 2]);
     println!(
