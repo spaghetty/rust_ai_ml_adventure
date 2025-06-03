@@ -44,7 +44,7 @@ impl<B: Backend> LinearNeuronModule<B> {
 }
 
 // --- 3. Evolved Example: Linear Neuron Training with Module and Optimizer ---
-pub fn linear_neuron_module_example() -> LinearNeuronModule<Autodiff<NdArray>> {
+pub fn linear_neuron_module_example() -> LinearNeuronModule<MyAutodiffBackend> {
     let device = Default::default(); // Get the default device for NdArray backend
     let learning_rate = 0.06; // A small step size
     // Define our problem: single input feature, single output feature, target 10.0
