@@ -23,9 +23,7 @@ jobs:
             ~/.cargo/bin/
             ~/.cargo/registry/cache/
             target/ # Cache the target directory to speed up subsequent builds
-          key: ${{ runner.os }}-cargo-${{ matrix.rust-toolchain }}-${{ hashFiles('**/Cargo.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-cargo-${{ matrix.rust-toolchain }}-
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
 
       - name: Run tests
         run: cargo test --verbose
