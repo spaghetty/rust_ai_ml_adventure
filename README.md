@@ -64,6 +64,6 @@ To run the examples (once you have Rust and Cargo installed):
 
 *[my medium blog](https://medium.com/@spaghetty)*
 
-* [**Post 1:**](https://medium.com/@spaghetty/rust-meets-ai-e6e754ba273d) - Intro & Tensors
-* [**Post 2:**](https://medium.com/@spaghetty/2-ai-ml-in-rust-unleashing-autodiff-gradients-explained-41e7a2cec94d) - Autodiff
+* [**Post 1:**](https://medium.com/@spaghetty/rust-meets-ai-e6e754ba273d) - [Intro & Tensors](./docs/01-tensor.md)
+* [**Post 2:**](https://medium.com/@spaghetty/2-ai-ml-in-rust-unleashing-autodiff-gradients-explained-41e7a2cec94d) - [Autodiff](./docs/02-autodiff.md)
 * ... and more to come!
