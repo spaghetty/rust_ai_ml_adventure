@@ -37,24 +37,24 @@ To run the examples (once you have Rust and Cargo installed):
 
 1.  Clone the repository:
     ```bash
-    git clone <your-repo-url>
-    cd <your-repo-name>
+    git clone git@github.com:spaghetty/rust_ai_ml_adventure.git
+    cd rust_ai_ml_adventure
     ```
 2.  To run the training for an example (e.g., from the MNIST project):
     ```bash
-    cargo run --release -- --train
+    cargo run --example <name_of_the_example> ##(eg. base_tensor)
     ```
 3.  To run inference with a trained model (specific command might vary per example):
     ```bash
-    cargo run --release -- --infer <path-to-data-if-needed>
+    cargo test
+    cargo test test_tensor ##(eg. single file)
     ```
 
-*(Make sure to check the specific example's directory for any unique running instructions!)*
 
 ### Blog Post Series
 
 *[my medium blog](https://medium.com/@spaghetty)*
 
-* **Post 1:** [https://medium.com/@spaghetty/rust-meets-ai-e6e754ba273d] - Intro & Tensors
-* **Post 2:** [https://medium.com/@spaghetty/2-ai-ml-in-rust-unleashing-autodiff-gradients-explained-41e7a2cec94d] - Autodiff
+* [**Post 1:**](https://medium.com/@spaghetty/rust-meets-ai-e6e754ba273d) - Intro & Tensors
+* [**Post 2:**](https://medium.com/@spaghetty/2-ai-ml-in-rust-unleashing-autodiff-gradients-explained-41e7a2cec94d) - Autodiff
 * ... and more to come!
