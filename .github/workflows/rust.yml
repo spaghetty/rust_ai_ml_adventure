@@ -2,19 +2,30 @@ name: Rust
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
 
 env:
   CARGO_TERM_COLOR: always
 
 jobs:
-  build:
-
+  test:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
-    - name: Run tests
-      run: cargo test --verbose
+      - name: checkout repository
+        uses: actions/checkout@v4
+      - name: Cache Cargo registry and index
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/bin/
+            ~/.cargo/registry/cache/
+            target/ # Cache the target directory to speed up subsequent builds
+          key: ${{ runner.os }}-cargo-${{ matrix.rust-toolchain }}-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-cargo-${{ matrix.rust-toolchain }}-
+
+      - name: Run tests
+        run: cargo test --verbose
