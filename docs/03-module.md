@@ -1,6 +1,6 @@
 # **3: Rust Meets AI: Modular Magic, Organising Neural Nets with Burn**
 
-**![][rust-burn.jpg]**
+![project image](./docs/rust-burn.jpg?raw=true)
 
 Welcome back to our Rust AI journey! In the last post, we conquered **Autodiff**, the magic behind neural network learning. But manually tracking every weight and bias? No thanks! Today, we’ll discover how Burn’s **Modules** make building neural networks a breeze.
 
