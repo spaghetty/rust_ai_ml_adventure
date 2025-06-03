@@ -1,5 +1,3 @@
-
-
 # 🔥 Deep Learning in Rust with Burn: From Zero to MNIST 🔥
 ----
 [![Tests](https://github.com/spaghetty/rust_ai_ml_adventure/actions/workflows/rust.yml/badge.svg)](https://github.com/spaghetty/rust_ai_ml_adventure/actions/workflows/rust.yml)
