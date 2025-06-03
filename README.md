@@ -30,6 +30,15 @@ To clearly demonstrate and document the process of building neural networks with
 
 Follow along, contribute, or use the examples to kickstart your own AI projects in Rust!
 
+### Best way to learn
+
+If you are curious, or want to try something please contribute to this project.
+You can contribute with:
+ * pull requests for improvement
+ * issue for unclear part or improvement ideas
+ * requests for missing area to explore.
+
+Working together is the best aproach to learn and grow
 
 ### Getting Started (Example)
 
