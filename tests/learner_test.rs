@@ -78,6 +78,8 @@ impl Dataset<ToyRegressionItem> for ToyRegressionDataset {
 struct LinearModel<B: Backend> {
     linear: Linear<B>,
 }
+
+
 impl<B: Backend> LinearModel<B> {
     fn new(device: &<B as Backend>::Device) -> Self {
         Self {
