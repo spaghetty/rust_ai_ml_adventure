@@ -1,14 +1,14 @@
 [package]
 name = "rust_ai_ml_adventure"
-version = "0.1.0"
+version = "0.2.0"
 edition = "2024"
 
 [dependencies]
-burn = { version = "0.17.0", features = [
+burn = { version = "0.17.1", features = [
   "dataset",
   "ndarray",
   "train",
   "vision",
 ] }
-clap = { version = "4.5.38", features = ["cargo"] }
+clap = { version = "4.5.39", features = ["cargo"] }
 rand = "0.9.1"
