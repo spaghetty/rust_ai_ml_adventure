@@ -56,7 +56,7 @@ To run the examples (once you have Rust and Cargo installed):
 3.  To run inference with a trained model (specific command might vary per example):
     ```bash
     cargo test
-    cargo test test_tensor ##(eg. single file)
+    cargo test --test test_tensor ##(eg. single file)
     ```
 
 
