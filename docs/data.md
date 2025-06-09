@@ -1,7 +1,3 @@
-Okay, I understand the constraints perfectly! We will generate the blog post in Markdown, and I will absolutely avoid using the backticks (```) for code blocks and any <immersive> tags. This means code will be presented as plain text, and you'll need to manually apply code formatting later.
-
-Given that the last base_data.rs you provided is the one you want me to work from (the one with burn::prelude::*, Batcher<B, I, O>, on-the-fly loss initialization, squeeze(1) for logits, and the specific TrainOutput::new call), here is the blog post content formatted as requested.
-
 # Post 5: AI and ML in Rust: Datasets & DataLoaders - The Conveyor Belt for Our AI Factory!
 
 Hey everyone, welcome back to our Rust AI/ML adventure! In our last post, we assembled our first neural networks using Burn's Module trait. But we've been working with "toy" data. To tackle more interesting problems, we need a way to manage and feed larger amounts of data.

@@ -1,28 +1,17 @@
-use burn::nn::loss::BinaryCrossEntropyLossConfig;
 use burn::prelude::*;
 use burn::{
     backend::{Autodiff, NdArray},
     config::Config,
-    data::{dataloader::DataLoaderBuilder, dataloader::batcher::Batcher, dataset::Dataset},
+    data::{
+        dataloader::DataLoader, dataloader::DataLoaderBuilder, dataloader::batcher::Batcher,
+        dataset::Dataset,
+    },
     module::Module,
     nn,
-    optim::AdamConfig,       // Using Adam this time!
-    record::CompactRecorder, // For saving later (optional here)
-    tensor::{
-        Tensor,
-        backend::{AutodiffBackend, Backend},
-    },
-    train::{
-        ClassificationOutput,
-        LearnerBuilder,
-        TrainOutput,
-        TrainStep,
-        ValidStep,
-        // New! Burn's training module helps a lot!
-        metric::LossMetric,
-    },
+    tensor::{Tensor, backend::Backend},
 };
 use rand::prelude::*;
+use std::sync::Arc;
 
 // --- Backend and Data (as before) ---
 type MyAutodiffBackend = Autodiff<NdArray>;
@@ -69,7 +58,7 @@ impl Dataset<CircleClassificationItem> for CircleDataset {
 #[derive(Debug, Clone)]
 pub struct CircleBatch<B: Backend> {
     pub inputs: Tensor<B, 2>,
-    pub targets: Tensor<B, 1, Int>, // We will produce Int targets here
+    pub targets: Tensor<B, 1, Int>,
 }
 
 #[derive(Clone, Default)] // Batchers need to be Clone
@@ -106,6 +95,7 @@ impl<B: Backend> Batcher<B, CircleClassificationItem, CircleBatch<B>> for Circle
 #[derive(Module, Debug)]
 pub struct Model<B: Backend> {
     linear1: nn::Linear<B>,
+    activation: nn::Relu,
     linear2: nn::Linear<B>,
 }
 
@@ -118,6 +108,7 @@ impl ModelConfig {
     pub fn init<B: Backend>(&self, device: &B::Device) -> Model<B> {
         Model {
             linear1: nn::LinearConfig::new(2, self.hidden_size).init(device),
+            activation: nn::Relu::new(),
             linear2: nn::LinearConfig::new(self.hidden_size, 1).init(device),
         }
     }
@@ -126,44 +117,8 @@ impl ModelConfig {
 impl<B: Backend> Model<B> {
     pub fn forward(&self, input: Tensor<B, 2>) -> Tensor<B, 2> {
         let x = self.linear1.forward(input);
-        self.linear2.forward(x) // Output logits (before activation)
-    }
-}
-// --- TrainStep/ValidStep Implementations ---
-impl<B: AutodiffBackend> TrainStep<CircleBatch<B>, ClassificationOutput<B>> for Model<B> {
-    /* ... as before ... */
-    fn step(&self, item: CircleBatch<B>) -> TrainOutput<ClassificationOutput<B>> {
-        let output = self.forward(item.inputs.clone());
-        let loss = BinaryCrossEntropyLossConfig::new()
-            .init(&output.device())
-            .forward(output.clone().squeeze(1), item.targets.clone());
-
-        let gradients = loss.backward();
-        TrainOutput::new(
-            self,
-            gradients,
-            ClassificationOutput {
-                loss: loss.clone(),
-                output,
-                targets: item.targets.clone(),
-            },
-        )
-    }
-}
-impl<B: Backend> ValidStep<CircleBatch<B>, ClassificationOutput<B>> for Model<B> {
-    /* ... as before ... */
-    fn step(&self, item: CircleBatch<B>) -> ClassificationOutput<B> {
-        let output_logits = self.forward(item.inputs.clone());
-
-        let loss = BinaryCrossEntropyLossConfig::new()
-            .init(&output_logits.device())
-            .forward(output_logits.clone().squeeze(1), item.targets.clone());
-
-        ClassificationOutput {
-            loss: loss.clone(),
-            output: output_logits,
-            targets: item.targets.clone(),
-        }
+        let x = self.activation.forward(x);
+        self.linear2.forward(x)
     }
 }
 
@@ -171,46 +126,48 @@ impl<B: Backend> ValidStep<CircleBatch<B>, ClassificationOutput<B>> for Model<B>
 pub fn run_training() {
     let device = Default::default();
     let config = ModelConfig::new(16); // 16 hidden neurons
-    let model: Model<MyAutodiffBackend> = config.init(&device);
+    let _model: Model<MyAutodiffBackend> = config.init(&device);
+    let batch_size = 700;
 
-    let optim_config = AdamConfig::new();
-
+    // --- Build the train and test dataset ---
     let train_dataset = CircleDataset::new(10000);
-    let test_dataset = CircleDataset::new(400);
+    let test_dataset = CircleDataset::new(1500);
 
     // --- Create Batchers ---
-    // --- Create Batchers (Using our Custom Batcher!) ---
     let train_batcher = CircleBatcher {};
     let test_batcher = CircleBatcher {};
-    // We specify the Backend, the input item (CircleClassificationItem)
-    // and the output item (also CircleClassificationItem, but batched).
-    // The `_` lets Rust infer the Item types, which is often convenient.
-    let batch_size = 150;
 
-    let train_dataloader = DataLoaderBuilder::new(train_batcher.clone())
-        .batch_size(batch_size)
-        .shuffle(42)
-        .num_workers(1)
-        .build(train_dataset);
+    // --- Prepare the DataLoader
+    let train_dataloader: Arc<dyn DataLoader<MyAutodiffBackend, CircleBatch<MyAutodiffBackend>>> =
+        DataLoaderBuilder::new(train_batcher.clone())
+            .batch_size(batch_size)
+            .shuffle(42)
+            .num_workers(1)
+            .build(train_dataset);
 
-    let test_dataloader = DataLoaderBuilder::new(test_batcher.clone())
-        .batch_size(batch_size)
-        .num_workers(1)
-        .build(test_dataset);
+    let test_dataloader: Arc<dyn DataLoader<MyAutodiffBackend, CircleBatch<MyAutodiffBackend>>> =
+        DataLoaderBuilder::new(test_batcher.clone())
+            .batch_size(batch_size)
+            .num_workers(1)
+            .build(test_dataset);
 
-    // --- Build the Learner (Same as before) ---
-    let learner = LearnerBuilder::new("/tmp/burn_post_5_learner")
-        .metric_train_numeric(LossMetric::new())
-        .metric_valid_numeric(LossMetric::new())
-        .with_file_checkpointer(CompactRecorder::new())
-        .devices(vec![device.clone()])
-        .num_epochs(100)
-        .summary()
-        .build(model, optim_config.init(), 0.02);
-
-    println!("--- Starting Training with Learner ---");
-    let _model_trained = learner.fit(train_dataloader, test_dataloader);
-    println!("--- Learner Training Finished ---");
+    // Visualize an epoch
+    println!("training data splitted in batches and shuffle");
+    for i in train_dataloader.iter() {
+        println!(
+            "data: {:?}, label: {:?}",
+            i.inputs.shape(),
+            i.targets.shape()
+        );
+    }
+    println!("validating data splitted in bactches");
+    for i in test_dataloader.iter() {
+        println!(
+            "data: {:?}, label: {:?}",
+            i.inputs.shape(),
+            i.targets.shape()
+        );
+    }
 }
 
 fn main() {

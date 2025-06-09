@@ -19,3 +19,5 @@ target/
 # Added by cargo
 /data
 /target
+
+.DS_store
