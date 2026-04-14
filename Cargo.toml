@@ -11,4 +11,4 @@ burn = { version = "0.17.1", features = [
   "vision",
 ] }
 clap = { version = "4.5.39", features = ["cargo"] }
-rand = "0.9.1"
+rand = "0.9.3"

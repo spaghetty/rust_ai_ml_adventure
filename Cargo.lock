@@ -405,7 +405,7 @@ dependencies = [
  "log",
  "num-traits",
  "portable-atomic-util",
- "rand 0.9.1",
+ "rand 0.9.3",
  "rmp-serde",
  "serde",
  "serde_json",
@@ -433,7 +433,7 @@ dependencies = [
  "hashbrown 0.15.3",
  "log",
  "num-traits",
- "rand 0.9.1",
+ "rand 0.9.3",
  "serde",
  "spin 0.10.0",
  "text_placeholder",
@@ -487,7 +487,7 @@ dependencies = [
  "image",
  "r2d2",
  "r2d2_sqlite",
- "rand 0.9.1",
+ "rand 0.9.3",
  "rmp-serde",
  "rusqlite",
  "sanitize-filename 0.6.0",
@@ -561,7 +561,7 @@ dependencies = [
  "num-traits",
  "paste",
  "portable-atomic-util",
- "rand 0.9.1",
+ "rand 0.9.3",
  "seq-macro",
  "spin 0.10.0",
 ]
@@ -625,7 +625,7 @@ dependencies = [
  "half",
  "hashbrown 0.15.3",
  "num-traits",
- "rand 0.9.1",
+ "rand 0.9.3",
  "rand_distr",
  "serde",
  "serde_bytes",
@@ -741,7 +741,7 @@ dependencies = [
  "memmap2",
  "num-traits",
  "num_cpus",
- "rand 0.9.1",
+ "rand 0.9.3",
  "rand_distr",
  "rayon",
  "safetensors 0.4.5",
@@ -1085,7 +1085,7 @@ dependencies = [
  "log",
  "num-traits",
  "portable-atomic",
- "rand 0.9.1",
+ "rand 0.9.3",
  "sanitize-filename 0.5.0",
  "serde",
  "serde_json",
@@ -2265,7 +2265,7 @@ dependencies = [
  "cfg-if",
  "crunchy",
  "num-traits",
- "rand 0.9.1",
+ "rand 0.9.3",
  "rand_distr",
  "serde",
 ]
@@ -3602,7 +3602,7 @@ dependencies = [
  "bytes",
  "getrandom 0.3.3",
  "lru-slab",
- "rand 0.9.1",
+ "rand 0.9.3",
  "ring",
  "rustc-hash 2.1.1",
  "rustls",
@@ -3678,9 +3678,9 @@ dependencies = [
 
 [[package]]
 name = "rand"
-version = "0.9.1"
+version = "0.9.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "9fbfd9d094a40bf3ae768db9361049ace4c0e04a4fd6b359518bd7b73a73dd97"
+checksum = "7ec095654a25171c2124e9e3393a930bddbffdc939556c914957a4c3e0a87166"
 dependencies = [
  "rand_chacha 0.9.0",
  "rand_core 0.9.3",
@@ -3731,7 +3731,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "6a8615d50dcf34fa31f7ab52692afec947c4dd0ab803cc87cb3b0b4570ff7463"
 dependencies = [
  "num-traits",
- "rand 0.9.1",
+ "rand 0.9.3",
 ]
 
 [[package]]
@@ -4073,7 +4073,7 @@ version = "0.2.0"
 dependencies = [
  "burn",
  "clap",
- "rand 0.9.1",
+ "rand 0.9.3",
 ]
 
 [[package]]
@@ -5165,7 +5165,7 @@ checksum = "3cf4199d1e5d15ddd86a694e4d0dffa9c323ce759fea589f00fef9d81cc1931d"
 dependencies = [
  "getrandom 0.3.3",
  "js-sys",
- "rand 0.9.1",
+ "rand 0.9.3",
  "wasm-bindgen",
 ]
 
